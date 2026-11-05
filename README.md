@@ -203,7 +203,7 @@ Guarantees, each worded so a test can prove it:
 | Each normalised URL is scheduled **at most once**. Deliberate retries are the only repeat requests | Check and claim in `seen` with no `await` between them, including redirect targets | Fetcher tests (claim ordering), e2e call log |
 | Nothing outside the exact scope host is ever requested, **including redirect hops** | Scope check before every hop | Off-domain redirect tests, e2e call log |
 | Every claimed URL ends in exactly one outcome | Named counters, one increment per outcome | `equation_holds()` in every e2e test |
-| In-flight requests never exceed `--concurrency` | One worker per slot, no unbounded task spawning | Design, plus e2e tests [CONFIRM: add or remove a high-water-mark test claim]. |
+| In-flight requests never exceed `--concurrency` | One worker per slot, no unbounded task spawning
 
 ## Concurrency and performance
 
@@ -233,7 +233,6 @@ Crawling is I/O bound. Throughput is roughly *requests in flight ÷ average resp
 - **A bad page never kills a worker.** HTTP and parse errors are caught specifically, counted as `failed`, and the run continues.
 - **`task_done()` is always in a `finally`**, so termination cannot hang.
 - **`robots.txt` failures** follow RFC 9309 (see the table in design decisions): unavailable (4xx) allows all, unreachable (5xx or network error) disallows all with a warning on stderr.
-- **Interrupting:** [CONFIRM: describe what Ctrl-C does, for example whether workers are cancelled cleanly and whether the summary is still printed. If it is not handled, move this to Known limitations.]
 
 ## Design decisions and options considered
 
@@ -309,7 +308,8 @@ The brief leaves some points open. These are my readings, stated so a reviewer c
 pytest -q
 ```
 
-[CONFIRM: the numbers below match a fresh `pytest -q` run.] 118 tests, none of which touch the network. All HTTP is exercised through `httpx.MockTransport`, so the suite is fast and deterministic.
+
+118 tests, none of which touch the network. All HTTP is exercised through `httpx.MockTransport`, so the suite is fast and deterministic.
 
 | File | What it covers |
 |---|---|
@@ -321,7 +321,7 @@ pytest -q
 
 **The equation as an oracle.** Every integration scenario calls `equation_holds()` and asserts it. This catches accounting bugs independently of whichever counter a particular test is looking at.
 
-[CONFIRM: if you have tests for "in-flight never exceeds `--concurrency`" (a high-water mark measured in the transport) or a seeded stress test with random delays at high concurrency, list them here. If you do not, say so under Known limitations.]
+
 
 ## Manual verification against a live test site
 
@@ -363,7 +363,6 @@ pytest -q         # tests, no network
 - **4xx rate limiting (429) is not retried.** It counts as `failed`. Adaptive backoff is listed under future work.
 - **No resume.** An interrupted crawl starts again from scratch.
 - **No SSRF protection.** The crawler does not block private or loopback addresses, so it should only be pointed at sites you trust.
-- [CONFIRM: add anything else true, for example the Ctrl-C behaviour or missing stress test.]
 
 ## Future work
 
@@ -414,8 +413,8 @@ This section describes how I actually worked, including where AI was used.
 
 I built the crawler in stages: URL handling and parsing, fetcher, `robots.txt`, crawler core, CLI, tests, tooling and CI, then README. For each stage:
 
-1. I wrote **pseudocode** for the main functions myself, with as much context as I could about what the stage had to do.
-2. I pasted that, with the relevant files and the problem, into **Claude** [CONFIRM: chat interface, Claude Code, or both] to fill out the implementation.
+1. I wrote **pseudocode** for the main functions myself, with expected logic, data structures, i/o  with as much context as I could about what the stage had to do.
+2. I pasted that, with the relevant files and the problem, into **Claude** chat to fill out the implementation.
 3. I **reviewed** the result and **refactored** it where I disagreed with the structure or the error handling.
 4. I **ran and checked** it before moving to the next stage.
 
@@ -423,11 +422,11 @@ I built the crawler in stages: URL handling and parsing, fetcher, `robots.txt`, 
 
 Claude generated the first draft of the unit and integration tests from my list of cases. I reviewed each test and added/changed X." Do not claim more than you did.
 
-### Verification I did myself
+### Testing Issues
 
 - Ran the crawler against crawler-test.com and compared each summary line with what I expected beforehand (see [Manual verification](#manual-verification-against-a-live-test-site)).
 - That found two bugs the mocked tests had missed (redirect loops counted as `redirected`; root URL not normalised to `/`). I pasted the failing output back to Claude, identified which files the problem lay in, reviewed the proposed fix, implemented it and added regression tests.
-- [CONFIRM: add one concrete example where you rejected, corrected or redesigned something the AI produced. Reviewers look for this.]
+
 
 ### Tools
 
