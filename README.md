@@ -1,15 +1,14 @@
 # python-developer-test
 
-# Zego
+# The test 🧪
+Create a Python app that can be run from the command line that will accept a base URL to crawl the site. For each page it finds, the script will print the URL of the page and all the URLs it finds on that page. The crawler will only process that single domain and not crawl URLs pointing to other domains or subdomains. Please employ patterns that will allow your crawler to run as quickly as possible, making full use any patterns that might boost the speed of the task, whilst not sacrificing accuracy and compute resources. Do not use tools like Scrapy or Playwright. You may use libraries for other purposes such as making HTTP requests, parsing HTML and other similar tasks.
 
-## About Us
+# The objective
+This exercise is intended to allow you to demonstrate how you design software and write good quality code. We will look at how you have structured your code and how you test it. We want to understand how you have gone about solving this problem, what tools you used to become familiar with the subject matter and what tools you used to produce the code and verify your work. Please include detailed information about your IDE, the use of any interactive AI (such as Copilot) as well as any other AI tools that form part of your workflow.
 
-At Zego, we understand that traditional motor insurance holds good drivers back.
-It's too complicated, too expensive, and it doesn't reflect how well you actually drive.
-Since 2016, we have been on a mission to change that by offering the lowest priced insurance for good drivers.
-From van drivers and gig economy workers to everyday car drivers, our customers are the driving force behind everything we do. We've sold tens of millions of policies and raised over $200 million in funding. And we're only just getting started.
+You might also consider how you would extend your code to handle more complex scenarios, such a crawling multiple domains at once, thinking about how a command line interface might not be best suited for this purpose and what alternatives might be more suitable. Also, feel free to set the repo up as you would a production project.
 
----
+Extend this README to include a detailed discussion about your design decisions, the options you considered and the trade-offs you made during the development process, and aspects you might have addressed or refined if not constrained by time.
 
 ## Solution: Single-Domain Async Web Crawler
 
