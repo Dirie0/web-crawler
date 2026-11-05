@@ -42,7 +42,9 @@ async def fetch(
                 return FetchOutcome(FetchStatus.FAILED, original, current, redirect_hops=hops)
 
             if not is_in_scope(target, scope_host):
-                return FetchOutcome(FetchStatus.REDIRECT_OFF_DOMAIN, original, target, redirect_hops=hops)
+                return FetchOutcome(FetchStatus.REDIRECT_OFF_DOMAIN,
+                                    original,
+                                    target, redirect_hops=hops)
 
             if target in chain or hops >= _MAX_HOPS:
                 return FetchOutcome(FetchStatus.REDIRECT_LOOP, original, target, redirect_hops=hops)

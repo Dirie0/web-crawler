@@ -420,7 +420,7 @@ I built the crawler in stages: URL handling and parsing, fetcher, `robots.txt`, 
 
 ### Tests
 
-Claude generated the first draft of the unit and integration tests from my list of cases. I reviewed each test and added/changed X." Do not claim more than you did.
+Claude generated the first draft of the unit and integration tests from my list of cases. I reviewed each test and edited where i disagreed.
 
 ### Testing Issues
 
