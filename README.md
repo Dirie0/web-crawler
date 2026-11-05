@@ -45,6 +45,30 @@ source .venv/bin/activate
 python3 -m pip install -e ".[dev]"
 python3 crawler https://example.com
 ```
+## Screenshots
+
+screenshot/1.png
+
+A normal crawl: shows the output format (page block, then indented links) and the stderr summary.
+
+crawler https://crawler-test.com/ --max-pages 10 --concurrency 5 
+
+
+screenshot/2.png
+
+A redirect chain: the best demonstration of your manual redirect handling and the completeness equation.
+
+crawler https://crawler-test.com/redirects/redirect_3_302 --max-pages 3 --concurrency 1
+
+
+Safety cases: a loop and an off-host redirect, in one terminal window.
+screenshot/3.png
+crawler https://crawler-test.com/redirects/infinite_redirect --max-pages 5 --concurrency 1
+
+screenshot/4.png
+crawler https://crawler-test.com/redirects/external_redirect --max-pages 5 --concurrency 1; echo "exit=$?"
+
+
 ## Usage
 
 ```
